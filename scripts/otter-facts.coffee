@@ -13,7 +13,7 @@
 #   dryan
 
 facts = [
-	"Alaska Sea Otter Scientific Name: Enhydra lutris kenyoni",
+	"The scientific name for sea otters is *Enhydra lutris kenyoni*.",
 	"The sea otter is the largest member of the Mustelidae, or weasel family, and the only one which lives almost entirely in the water.",
 	"Sea otters can live up to 25 years of age, although the average lifespan is 10 to 12 years.",
 	"Although the sea otter is the smallest marine mammal, the average adult can be as large as 5 feet in length and weigh up to 70 lbs.",
@@ -41,6 +41,19 @@ facts = [
 	"Sea otters were hunted for their fur to the point of near extinction. Early in the 20th century only 1,000 to 2,000 animals remained. Today, 100,000 to 150,000 sea otters are protected by law."
 ]
 
+count = (string, substr) ->
+  num = pos = 0
+  return 1/0 unless substr.length
+  num++ while pos = 1 + string.indexOf substr, pos
+  num
+
 module.exports = (robot) ->
 	robot.hear /.*(otter fact).*/i, (msg) ->
 		msg.send msg.random facts
+
+	robot.hear /.*(show (Ben|Hagen|Ben Hagen) some love).*/i, (msg) ->
+		random_fact = (msg.random facts)
+		random_fact = random_fact.substr(0,1).toLowerCase() + random_fact.substr(1)
+		if count(random_fact, '.') == 1
+			random_fact = "did you know that #{random_fact}".replace(/\.$/, '?')		
+		msg.send "Ben Hagen, #{random_fact}"
