@@ -1,14 +1,15 @@
 # Description:
 #   speaks a random fact about otters
-#   Sources:
-#     http://animals.nationalgeographic.com/animals/mammals/sea-otter/
-#     http://www.seaotter-sealion.org/seaotter/factsseaotter.html
+#   Sources
+#   http://animals.nationalgeographic.com/animals/mammals/sea-otter/
+#   http://www.seaotter-sealion.org/seaotter/factsseaotter.html
 # Dependencies:
 #   None
 # Configuration:
 #   None
 # Commands:
-#   otter fact - Speaks a random fact
+#   hubot otter fact - Speaks a random fact
+#   hubot show Hagen some love - Challenges Ben Hagen's otter knowledge
 # Author:
 #   dryan
 
