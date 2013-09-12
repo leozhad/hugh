@@ -49,12 +49,31 @@ count = (string, substr) ->
   num
 
 module.exports = (robot) ->
+	getAmbiguousUserText = (users) ->
+    "Be more specific, I know #{users.length} people named like that: #{(user.name for user in users).join(", ")}"
+
 	robot.hear /.*(otter fact).*/i, (msg) ->
 		msg.send msg.random facts
 
-	robot.hear /.*(show (Ben|Hagen|Ben Hagen) some love).*/i, (msg) ->
+	robot.hear /.*show @?([\w .\-]+)\?* some love.*/i, (msg) ->
 		random_fact = (msg.random facts)
 		random_fact = random_fact.substr(0,1).toLowerCase() + random_fact.substr(1)
 		if count(random_fact, '.') == 1
-			random_fact = "did you know that #{random_fact}".replace(/\.$/, '?')		
-		msg.send "Ben Hagen, #{random_fact}"
+			random_fact = "did you know that #{random_fact}".replace(/\.$/, '?')
+		name = msg.match[1].trim()
+		if name.toLowerCase() == 'me' or name.toLowerCase() == 'you' or name.toLowerCase() == 'yourself'
+			console.log(name.toLowerCase(), name.toLowerCase() != 'me')
+			if not name.toLowerCase() != 'me'
+				random_fact = 'I know everything there is to know about otters. But thanks for thinking of me.'
+			name = msg.message.user.name
+		users = robot.brain.usersForFuzzyName(name)
+		if users.length is 1
+			user = users[0]
+			name = user.name
+		else if users.length > 1
+			msg.send getAmbiguousUserText users
+			return
+		else if not name == robot.name
+			msg.send "I don't know who #{name} is."
+			return
+		msg.send "#{name}, #{random_fact}"
