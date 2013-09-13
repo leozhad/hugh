@@ -40,5 +40,12 @@ imageMe = (msg, query, animated, faces, cb) ->
       images = images.responseData?.results
       if images?.length > 0
         image  = msg.random images
-        cb "#{image.unescapedUrl}#.png"
+        re = /(?:\.([^.]+))?$/
+        ext = re.exec(image.unescapedUrl)[1]
+        if ext
+          ext = ext.toLowerCase()
+        if ext == 'jpg' or ext == 'jpeg' or ext == 'png' or ext == 'gif'
+          cb "#{image.unescapedUrl}"
+        else
+          cb "#{image.unescapedUrl}#.png"
 
