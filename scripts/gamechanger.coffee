@@ -13,7 +13,11 @@
 # Author:
 #   wsc
 
+
 module.exports = (robot) ->
   robot.hear /game changer/i, (msg) ->
     msg.send 'game'
-    msg.send 'changer'
+    gc = () ->
+      msg.send 'changer'
+
+    setTimeout gc, 1000
